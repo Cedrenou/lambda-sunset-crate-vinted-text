@@ -18,6 +18,8 @@ const INFOS_SUPP = `🚀 Informations supplémentaires :
 
 const HASHTAGS = `#alpinestars #dainese #vestemoto #blousonmoto #cuirmoto #helstons #segura #fox #gaerne #revit #ixon #klim #bering #furygan #tcx #forma #spidi #rst #ktm #deuxexmachina #sunsetrider #scott #leatt #forma #johndoe #D3o #richa #dxr #motopascher #ixs #allone #daytona #dorsalemoto #lonerider #enduristan #bottemoto #harleydavidson #protectionmoto #cross #enduro #trail #chaussuremoto #equipementmoto`;
 
+const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}\n📌 Texte protégé – Toute reproduction interdite.`;
+
 exports.handler = async (event) => {
     console.log('Début de la lambda. Event reçu :', JSON.stringify(event, null, 2));
     try {
@@ -36,39 +38,17 @@ exports.handler = async (event) => {
         let i = 0;
         for (const row of records) {
             i++;
+            // Construction de la section Caractéristiques
+            let caracteristiques = `✨ État : ${row['État'] || row['Etat'] || ''}\n` +
+                `🛡️ Protections : ${row['Protections'] || ''}\n` +
+                `✅ Taille : ${row['Taille'] || ''}\n` +
+                `🎯 Matière : ${row['Matière'] || ''}`;
+            if (row['Doublure'] && row['Doublure'].trim() !== '') {
+                caracteristiques += `\n🧥 Doublure : ${row['Doublure']}`;
+            }
+
             // Générer uniquement la description personnalisée
-
-            const prompt = `
-            Tu es un expert en rédaction d’annonces pour la vente d’équipements moto d’occasion sur Vinted.
-            À partir des informations suivantes sur un article, rédige une annonce structurée selon ce modèle :
-            
-            S'équiper et rouler en sécurité ne doit plus être un luxe.
-            Sunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.
-            
-            📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.
-            
-            🏆 Caractéristiques :
-            
-            ✨ État : [état de l’article, détails éventuels]
-            🛡️ Protections : [détail des protections]
-            ✅ Taille : [taille, précisions]
-            🎯 Matière : [matière]
-            🧥 Doublure : [oui/non, détails]
-            
-            🧥 [Nom de l’article]
-            [Description détaillée, points forts, style, état, usage, conseils, etc.]
-            
-            Contraintes :
-            - Respecte la structure, les emojis et la mise en page du modèle ci-dessus.
-            - Sois précis, factuel et vendeur, mais sans exagérer.
-            - N’invente pas d’informations qui ne sont pas fournies.
-            - Utilise un ton professionnel, rassurant et dynamique.
-            - N’ajoute pas de sections sur la boutique, les conseils, les hashtags ou l’UGS (elles seront ajoutées automatiquement).
-            
-            Informations de l’article (format JSON) :
-            ${JSON.stringify(row)}
-            `;
-
+            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)}. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
                 model: 'gpt-4o',
@@ -82,16 +62,7 @@ exports.handler = async (event) => {
             console.log(`Réponse OpenAI pour la ligne ${i} :`, description);
 
             // Ajout des sections fixes
-            const annonce = `${description}
-
-            ${QUI_SOMMES_NOUS}
-
-            ${INFOS_SUPP}
-
-            ${HASHTAGS}
-
-            🔗 UGS : ${row['Code article'] || row['UGS'] || ''}
-            📌 Texte protégé – Toute reproduction interdite.`;
+            const annonce = `S'équiper et rouler en sécurité ne doit plus être un luxe.\nSunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.\n\n📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.\n\n🏆 Caractéristiques :\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
             output += annonce + '\n\n';
         }
 
