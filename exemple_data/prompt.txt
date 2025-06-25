@@ -1,20 +1,5 @@
-
-
-Prompt à utiliser pour la rédaction d’annonces Vinted Sunset Rider :
-Je veux que tu rédiges des annonces Vinted au format complet Sunset Rider, pour des équipements moto de seconde main.
-
-
-
-Voici les consignes à respecter strictement :
-
-
 La structure et le ton sont constants : professionnels, accessibles, dynamiques, avec ponctuation soignée.
 
-L’annonce se termine toujours par :
-
-“UGS : [code]”
-
-“Texte protégé – Toute reproduction interdite.”
 
 Contenu à ADAPTER pour chaque produit :
 
