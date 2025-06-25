@@ -18,7 +18,7 @@ jobs:
           node-version: '18.x'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Zip Lambda package
         run: zip -r lambda-package.zip index.js package.json node_modules
