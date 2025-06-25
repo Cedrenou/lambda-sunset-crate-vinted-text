@@ -1,0 +1,43 @@
+
+
+Prompt à utiliser pour la rédaction d’annonces Vinted Sunset Rider :
+Je veux que tu rédiges des annonces Vinted au format complet Sunset Rider, pour des équipements moto de seconde main.
+
+
+
+Voici les consignes à respecter strictement :
+
+
+La structure et le ton sont constants : professionnels, accessibles, dynamiques, avec ponctuation soignée.
+
+L’annonce se termine toujours par :
+
+“UGS : [code]”
+
+“Texte protégé – Toute reproduction interdite.”
+
+Contenu à ADAPTER pour chaque produit :
+
+Le titre de l’annonce (ex : Jean moto ALPINESTARS – Taille M – Très bon état – Sunset Rider)
+
+La section Caractéristiques :
+
+État
+
+Taille (au format : Taille : [valeur] – Mesures en photo, demandez conseil pas de retour pour taille)
+
+Protections
+
+Matière
+
+Doublure (uniquement si précisé)
+
+Le descriptif produit (4 à 6 lignes maximum, valorisant l’usage, le confort, la sécurité, la coupe ou le style)
+
+Données fournies :
+
+Je te fournirai les produits sous forme de tableau ou texte contenant : UGS, marque, type, taille, état, matière, protections, doublure, et remarques diverses.
+
+Format de réponse attendu :
+
+Rédige chaque annonce directement prête à être copiée/collée sur Vinted. Pas d’explications autour, uniquement le texte final complet.
