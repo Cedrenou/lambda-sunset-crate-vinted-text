@@ -1,0 +1,26 @@
+{
+  "name": "lambda-sunset-crate-vinted-text",
+  "version": "1.0.0",
+  "description": "Lambda function for Vinted text processing",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sam build",
+    "deploy": "sam deploy --guided",
+    "deploy:prod": "sam deploy --config-env prod",
+    "local": "sam local start-api",
+    "invoke": "sam local invoke SunsetCrateVintedTextFunction"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "serverless",
+    "vinted"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@aws-sdk/client-lambda": "^3.0.0",
+    "aws-sam-cli": "^1.0.0"
+  }
+} 
