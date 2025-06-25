@@ -33,5 +33,5 @@ jobs:
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
-            --function-name sunset-crate-vinted-text \
+            --function-name lambda-sunst-create-vinted-text \
             --zip-file fileb://lambda-package.zip 
