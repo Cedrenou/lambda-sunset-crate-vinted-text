@@ -2,5 +2,10 @@
   "name": "lambda-sunset-crate-vinted-text",
   "version": "1.0.0",
   "main": "src/index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.500.0",
+    "openai": "^4.0.0",
+    "csv-parse": "^5.5.0"
+  }
 } 
