@@ -20,3 +20,21 @@ Code article,Designation,Taille,Famille,Protections,Doublure,Matière,État,Indi
 052570M79,ALPINESTARS MISSILE V2 - M/44,M,Blouson et Veste Femme,"Coudes et épaules, et emplacement dorsale",Non,Cuir,Excellent état,"blouson typé Racing femme conçu pour les amateurs de vitesse réunissant style, performance et protection ! En cuir de bovin premium, 1.3mm et double couche, réputé pour sa souplesse et sa grande résistance, Sliders d'épaules DFS"
 052570M81,HELSTONS ACE NOIR NOIR  XL,XL,Blouson et Veste Homme,"Coudes et épaules, et emplacement dorsale","Oui, amovible",Cuir,Excellent état,"Le blouson Helstons Ace est avant tout un blouson moto haut de gamme, et le modèle emblématique de la marque. Le cuir rag noir est assez fin et souple pour favoriser le confort au porté. Ce cuir de bovin présente un bel aspect ciré"
 052580M77,DAINESE M/L - 46,M,Blouson et Veste Femme,"Coudes et épaules, et emplacement dorsale",Non,Cuir,"Très bon état, mini accro sur epaule droite de 2mm","Blouson en cuir robuste, look feminin,  couleur noir et gris, "
+
+
+
+Pour la gestion du titre : 
+Blouson Alpinestars Vika – XL-XXL / 50 Femme – Très bon état – Sunset Rider
+
+(Famille)(designation) - (taille) (genre) - (etat) - Sunset Rider
+
+Si la famille de produit contient le mot pantalon je met Pantalon
+Si la famille de produit contient le mot Blouson et veste alors je regarde dans la matiere et Textile = Veste et Cuir = Blouson 
+
+
+Dans les caracteristique au niveau de lataille il faut ajouter le genre et finir par "- Mesures en photo" 
+
+
+Pour l'etat il faut ajouter apres "- nettoyé, désinfecté & imperméabilisé" sauf que le " & imperméabilisé" c'est uniquement si c'est un article de type blouson et veste ou chaussures 
+
+Essayer de revoir le prompt pour qu'il soit plus attrayant et inclure les atout d'indication pour description (met en avant la fonctionnalité et la sécurité)

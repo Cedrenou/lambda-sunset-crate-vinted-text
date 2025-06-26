@@ -39,16 +39,21 @@ exports.handler = async (event) => {
         for (const row of records) {
             i++;
             // Construction de la section Caractéristiques
-            let caracteristiques = `✨ État : ${row['État'] || row['Etat'] || ''}\n` +
+            let caracteristiques =  `✅ Taille : ${row['Taille'] || ''}\n` +
+            `✨ État : ${row['État'] || row['Etat'] || ''}\n` +
                 `🛡️ Protections : ${row['Protections'] || ''}\n` +
-                `✅ Taille : ${row['Taille'] || ''}\n` +
                 `🎯 Matière : ${row['Matière'] || ''}`;
             if (row['Doublure'] && row['Doublure'].trim() !== '') {
-                caracteristiques += `\n🧥 Doublure : ${row['Doublure']}`;
+                caracteristiques += `🧥 Doublure : ${row['Doublure']}`;
             }
+            caracteristiques += '📸 Photos 100% authentiques sur fond blanc \n\n';
+
+            //📢 Les équipements moto ont tendance à tailler petit, n'hésitez pas à prendre une taille au-dessus.
+
+            // S'équiper et rouler en sécurité ne doit plus être un luxe.
 
             // Générer uniquement la description personnalisée
-            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)}. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
+            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)} en incluant les atouts spécifique suivant ${JSON.stringify(row['Indications pour description'])}, met en avant la fonctionnalité, la sécurité et la qualité. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
                 model: 'gpt-4o',
@@ -56,7 +61,7 @@ exports.handler = async (event) => {
                     { role: 'system', content: 'Tu es un expert en marketing et en vente en ligne. Tu es capable de générer des descriptions attrayantes pour des articles de vente en ligne à destination de Vinted.' },
                     { role: 'user', content: prompt }
                 ],
-                temperature: 0.7
+                temperature: 0.9
             });
             const description = completion.choices[0].message.content;
             console.log(`Réponse OpenAI pour la ligne ${i} :`, description);
