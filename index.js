@@ -44,9 +44,9 @@ exports.handler = async (event) => {
                 `🛡️ Protections : ${row['Protections'] || ''}\n` +
                 `🎯 Matière : ${row['Matière'] || ''}`;
             if (row['Doublure'] && row['Doublure'].trim() !== '') {
-                caracteristiques += `🧥 Doublure : ${row['Doublure']}`;
+                caracteristiques += ` 🧥 Doublure : ${row['Doublure']}`;
             }
-            caracteristiques += '📸 Photos 100% authentiques sur fond blanc \n\n';
+            caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc \n\n';
 
             //📢 Les équipements moto ont tendance à tailler petit, n'hésitez pas à prendre une taille au-dessus.
 
@@ -81,7 +81,7 @@ exports.handler = async (event) => {
             console.log(`Titre généré pour la ligne ${i} :`, titre);
 
             // Ajout des sections fixes
-            const annonce = `${titre}\n\nS'équiper et rouler en sécurité ne doit plus être un luxe.\nSunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.\n\n📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.\n\n🏆 Caractéristiques :\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
+            const annonce = `${titre}\n\n🥇100% Satisfait ou Remboursé!\nSunset Rider – 1ère entreprise en ligne de seconde main moto reconditionnée.\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
             output += annonce + '\n\n───────────────────────────────\n\n';
         }
 
