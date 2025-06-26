@@ -8,17 +8,15 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // Sections fixes
 const QUI_SOMMES_NOUS = `⚡ Qui sommes-nous ?
 Sunset Rider propose des équipements moto reconditionnés alliant qualité, sécurité et écoresponsabilité.
-Projet soutenu par la région – une partie des bénéfices est reversée aux accidentés de la route.
-Conseils personnalisés 7j/7 sur Vinted et Instagram.`;
+Projet soutenu par la région – Une partie des bénéfices est reversée à une association des accidentés de la route.
+🌐 Rejoignez-nous sur notre plateforme en ligne ou sur Instagram!`;
 
-const INFOS_SUPP = `🚀 Informations supplémentaires :
-📦 Envoi rapide sous 24/48H
-🛍️ +500 articles moto et sportswear disponibles
-📢 Conseil 7j/7 – Pas de retour pour raison de taille. Les équipements moto ont tendance à tailler petit, n'hésitez pas à partir sur une taille au-dessus.`;
+const INFOS_SUPP = `📦 Envoi rapide sous 24/48H
+🛍️ +500 articles moto disponibles`;
 
 const HASHTAGS = `#alpinestars #dainese #vestemoto #blousonmoto #cuirmoto #helstons #segura #fox #gaerne #revit #ixon #klim #bering #furygan #tcx #forma #spidi #rst #ktm #deuxexmachina #sunsetrider #scott #leatt #forma #johndoe #D3o #richa #dxr #motopascher #ixs #allone #daytona #dorsalemoto #lonerider #enduristan #bottemoto #harleydavidson #protectionmoto #cross #enduro #trail #chaussuremoto #equipementmoto`;
 
-const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}\n📌 Texte protégé – Toute reproduction interdite.`;
+const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
 
 exports.handler = async (event) => {
     console.log('Début de la lambda. Event reçu :', JSON.stringify(event, null, 2));
@@ -48,9 +46,8 @@ exports.handler = async (event) => {
             }
             caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc \n\n';
 
-            //📢 Les équipements moto ont tendance à tailler petit, n'hésitez pas à prendre une taille au-dessus.
 
-            // S'équiper et rouler en sécurité ne doit plus être un luxe.
+            // 
 
             // Générer uniquement la description personnalisée
             const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)} en incluant les atouts spécifique suivant ${JSON.stringify(row['Indications pour description'])}, met en avant la fonctionnalité, la sécurité et la qualité. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
@@ -81,7 +78,7 @@ exports.handler = async (event) => {
             console.log(`Titre généré pour la ligne ${i} :`, titre);
 
             // Ajout des sections fixes
-            const annonce = `${titre}\n\n🥇100% Satisfait ou Remboursé!\nSunset Rider – 1ère entreprise en ligne de seconde main moto reconditionnée.\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
+            const annonce = `${titre}\n\n🥇100% Satisfait ou Remboursé!\nSunset Rider – 1ère entreprise en ligne de seconde main moto reconditionnée.\n\n${caracteristiques}\n\n📢 Les équipements moto ont tendance à tailler petit, n'hésitez pas à prendre une taille au-dessus.\n\nS'équiper et rouler en sécurité ne doit plus être un luxe.\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n📌 Texte protégé – Toute reproduction interdite.\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
             output += annonce + '\n\n───────────────────────────────\n\n';
         }
 
