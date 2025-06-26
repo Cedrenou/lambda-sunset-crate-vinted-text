@@ -36,15 +36,28 @@ exports.handler = async (event) => {
         let i = 0;
         for (const row of records) {
             i++;
-            // Construction de la section Caractéristiques
+            // Construction de la section Caractéristiques avec la règle sur l'état
+            let etat = row['État'] || row['Etat'] || '';
+            let suffixe = ' - nettoyé, désinfecté';
+            if (
+              row['Famille'] &&
+              (
+                row['Famille'].toLowerCase().includes('blouson et veste') ||
+                row['Famille'].toLowerCase().includes('chaussures')
+              )
+            ) {
+              suffixe += ' & imperméabilisé';
+            }
+            etat += suffixe;
+
             let caracteristiques =  `✅ Taille : ${row['Taille'] || ''} - Mesures en photo\n` +
-            `✨ État : ${row['État'] || row['Etat'] || ''}\n` +
+                `✨ État : ${etat}\n` +
                 `🛡️ Protections : ${row['Protections'] || ''}\n` +
                 `🎯 Matière : ${row['Matière'] || ''}`;
             if (row['Doublure'] && row['Doublure'].trim() !== '') {
                 caracteristiques += ` 🧥 Doublure : ${row['Doublure']}`;
             }
-            caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc \n\n';
+            caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc';
 
 
             // 
