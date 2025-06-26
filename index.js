@@ -28,6 +28,19 @@ function getGenre(famille) {
     return 'Unisexe';
 }
 
+// Fonction utilitaire pour déterminer le type d'article
+function getTypeArticle(famille, matiere) {
+    if (!famille) return '';
+    const f = famille.toLowerCase();
+    if (f.includes('pantalon')) return 'Pantalon';
+    if (f.includes('blouson et veste')) {
+        if (matiere && matiere.toLowerCase().includes('cuir')) return 'Blouson';
+        if (matiere && matiere.toLowerCase().includes('textile')) return 'Veste';
+        return '';
+    }
+    return famille;
+}
+
 exports.handler = async (event) => {
     console.log('Début de la lambda. Event reçu :', JSON.stringify(event, null, 2));
     try {
@@ -70,9 +83,6 @@ exports.handler = async (event) => {
             }
             caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc';
 
-
-            // 
-
             // Générer uniquement la description personnalisée
             const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)} en incluant les atouts spécifique suivant ${JSON.stringify(row['Indications pour description'])}, met en avant la fonctionnalité, la sécurité et la qualité. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
@@ -87,19 +97,12 @@ exports.handler = async (event) => {
             const description = completion.choices[0].message.content;
             console.log(`Réponse OpenAI pour la ligne ${i} :`, description);
 
-            // Générer le titre de l'annonce
-            const titrePrompt = `Génère un titre court et vendeur pour une annonce Vinted à partir des informations suivantes : ${JSON.stringify(row)}. Le titre doit être au format : [Nom de l'article ou Désignation] – Taille [Taille] – [État] – Sunset Rider. N'invente rien, utilise uniquement les informations fournies.`;
-            console.log(`Appel OpenAI pour le titre de la ligne ${i} :`, titrePrompt);
-            const titreCompletion = await openai.chat.completions.create({
-                model: 'gpt-4o',
-                messages: [
-                    { role: 'system', content: "Tu es un expert en rédaction d'annonces Vinted. Génère uniquement le titre demandé." },
-                    { role: 'user', content: titrePrompt }
-                ],
-                temperature: 0.5
-            });
-            const titre = titreCompletion.choices[0].message.content.trim();
-            console.log(`Titre généré pour la ligne ${i} :`, titre);
+            // Construction du titre selon les règles métier
+            const typeArticle = getTypeArticle(row['Famille'], row['Matière']);
+            const designation = row['Designation'] || '';
+            const tailleGenre = `${row['Taille'] || ''} ${genre}`.trim();
+            const etatTitre = row['État'] || row['Etat'] || '';
+            const titre = `${typeArticle} ${designation} – ${tailleGenre} – ${etatTitre} – Sunset Rider`.replace(/\s+/g, ' ').replace('  ', ' ').trim();
 
             // Ajout des sections fixes
             const annonce = `${titre}\n\n🥇100% Satisfait ou Remboursé!\nSunset Rider – 1ère entreprise en ligne de seconde main moto reconditionnée.\n\n${caracteristiques}\n\n📢 Les équipements moto ont tendance à tailler petit, n'hésitez pas à prendre une taille au-dessus.\n\nS'équiper et rouler en sécurité ne doit plus être un luxe.\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n📌 Texte protégé – Toute reproduction interdite.\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;

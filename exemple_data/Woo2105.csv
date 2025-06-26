@@ -29,7 +29,6 @@ Blouson Alpinestars Vika – XL-XXL / 50 Femme – Très bon état – Sunset Ri
 (Famille)(designation) - (taille) (genre) - (etat) - Sunset Rider
 
 Si la famille de produit contient le mot pantalon je met Pantalon
-Si la famille de produit contient le mot Blouson et veste alors je regarde dans la matiere et Textile = Veste et Cuir = Blouson 
-
-
-Pour la gestion de la taille il faut ajouter a la fin le GENRE 
+Si la famille de produit contient le mot Blouson et veste alors je regarde dans la colonne matiere. 
+- Si matiere = Textile je met Veste
+- Si matière = Cuir je met Blouson 
