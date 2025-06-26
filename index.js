@@ -61,8 +61,22 @@ exports.handler = async (event) => {
             const description = completion.choices[0].message.content;
             console.log(`Réponse OpenAI pour la ligne ${i} :`, description);
 
+            // Générer le titre de l'annonce
+            const titrePrompt = `Génère un titre court et vendeur pour une annonce Vinted à partir des informations suivantes : ${JSON.stringify(row)}. Le titre doit être au format : [Nom de l'article ou Désignation] – Taille [Taille] – [État] – Sunset Rider. N'invente rien, utilise uniquement les informations fournies.`;
+            console.log(`Appel OpenAI pour le titre de la ligne ${i} :`, titrePrompt);
+            const titreCompletion = await openai.chat.completions.create({
+                model: 'gpt-4o',
+                messages: [
+                    { role: 'system', content: "Tu es un expert en rédaction d'annonces Vinted. Génère uniquement le titre demandé." },
+                    { role: 'user', content: titrePrompt }
+                ],
+                temperature: 0.5
+            });
+            const titre = titreCompletion.choices[0].message.content.trim();
+            console.log(`Titre généré pour la ligne ${i} :`, titre);
+
             // Ajout des sections fixes
-            const annonce = `S'équiper et rouler en sécurité ne doit plus être un luxe.\nSunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.\n\n📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.\n\n🏆 Caractéristiques :\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
+            const annonce = `${titre}\n\nS'équiper et rouler en sécurité ne doit plus être un luxe.\nSunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.\n\n📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.\n\n🏆 Caractéristiques :\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
             output += annonce + '\n\n';
         }
 
