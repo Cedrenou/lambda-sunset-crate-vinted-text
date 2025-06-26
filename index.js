@@ -48,7 +48,7 @@ exports.handler = async (event) => {
             }
 
             // Générer uniquement la description personnalisée
-            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)}. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
+            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)}. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
                 model: 'gpt-4o',
