@@ -32,6 +32,4 @@ Si la famille de produit contient le mot pantalon je met Pantalon
 Si la famille de produit contient le mot Blouson et veste alors je regarde dans la matiere et Textile = Veste et Cuir = Blouson 
 
 
-Pour l'etat il faut ajouter apres "- nettoyé, désinfecté & imperméabilisé" sauf que le " & imperméabilisé" uniquement si c'est un article de type blouson et veste ou chaussures 
-
 Pour la gestion de la taille il faut ajouter a la fin le GENRE 

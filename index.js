@@ -18,6 +18,16 @@ const HASHTAGS = `#alpinestars #dainese #vestemoto #blousonmoto #cuirmoto #helst
 
 const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
 
+// Fonction utilitaire pour déduire le genre à partir de la colonne Famille
+function getGenre(famille) {
+    if (!famille) return '';
+    const f = famille.toLowerCase();
+    if (f.includes('femme')) return 'Femme';
+    if (f.includes('homme')) return 'Homme';
+    if (f.includes('enfant')) return 'Enfant';
+    return 'Unisexe';
+}
+
 exports.handler = async (event) => {
     console.log('Début de la lambda. Event reçu :', JSON.stringify(event, null, 2));
     try {
@@ -37,6 +47,7 @@ exports.handler = async (event) => {
         for (const row of records) {
             i++;
             // Construction de la section Caractéristiques avec la règle sur l'état
+            const genre = getGenre(row['Famille']);
             let etat = row['État'] || row['Etat'] || '';
             let suffixe = ' - nettoyé, désinfecté';
             if (
@@ -50,7 +61,7 @@ exports.handler = async (event) => {
             }
             etat += suffixe;
 
-            let caracteristiques =  `✅ Taille : ${row['Taille'] || ''} - Mesures en photo\n` +
+            let caracteristiques =  `✅ Taille : ${row['Taille'] || ''} ${genre ? genre : ''} - Mesures en photo\n` +
                 `✨ État : ${etat}\n` +
                 `🛡️ Protections : ${row['Protections'] || ''}\n` +
                 `🎯 Matière : ${row['Matière'] || ''}`;
