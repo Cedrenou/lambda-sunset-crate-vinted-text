@@ -37,7 +37,7 @@ exports.handler = async (event) => {
         for (const row of records) {
             i++;
             // Construction de la section Caractéristiques
-            let caracteristiques =  `✅ Taille : ${row['Taille'] || ''}\n` +
+            let caracteristiques =  `✅ Taille : ${row['Taille'] || ''} - Mesures en photo\n` +
             `✨ État : ${row['État'] || row['Etat'] || ''}\n` +
                 `🛡️ Protections : ${row['Protections'] || ''}\n` +
                 `🎯 Matière : ${row['Matière'] || ''}`;
