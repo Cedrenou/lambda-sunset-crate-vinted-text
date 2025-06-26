@@ -77,7 +77,7 @@ exports.handler = async (event) => {
 
             // Ajout des sections fixes
             const annonce = `${titre}\n\nS'équiper et rouler en sécurité ne doit plus être un luxe.\nSunset Rider – 1ère entreprise de seconde main moto reconditionnée en France.\n\n📸 Photos 100% authentiques prises par nos soins. Fond blanc pour une mise en valeur optimale.\n\n🏆 Caractéristiques :\n\n${caracteristiques}\n\n🧥 ${row['Designation'] || row['Nom de l\'article'] || ''}\n${description}\n\n${QUI_SOMMES_NOUS}\n\n${INFOS_SUPP}\n\n${HASHTAGS}${UGS_ET_PROTECTION(row['Code article'] || row['UGS'] || '')}`;
-            output += annonce + '\n\n';
+            output += annonce + '\n\n───────────────────────────────\n\n';
         }
 
         const outputKey = key.replace(/^([^/]+\/)*/, 'output/').replace(/\.csv$/i, '.txt');
