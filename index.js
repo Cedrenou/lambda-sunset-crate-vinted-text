@@ -89,7 +89,7 @@ exports.handler = async (event) => {
                     { role: 'system', content: 'Tu es un expert en marketing et en vente en ligne. Tu es capable de générer des descriptions attrayantes pour des articles de vente en ligne à destination de Vinted.' },
                     { role: 'user', content: prompt }
                 ],
-                temperature: 0.9
+                temperature: 1
             });
             const description = completion.choices[0].message.content;
             console.log(`Réponse OpenAI pour la ligne ${i} :`, description);
