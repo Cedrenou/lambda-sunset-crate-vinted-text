@@ -1,15 +1,13 @@
 const { S3Client, GetObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { parse } = require('csv-parse/sync');
 const { OpenAI } = require('openai');
+const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection } = require('./dynamo');
 
 const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Sections fixes
-const QUI_SOMMES_NOUS = `⚡ Qui sommes-nous ?
-Sunset Rider propose des équipements moto reconditionnés alliant qualité, sécurité et écoresponsabilité.
-Projet soutenu par la région – Une partie des bénéfices est reversée à une association des accidentés de la route.
-🌐 Rejoignez-nous sur notre plateforme en ligne ou sur Instagram!`;
+const QUI_SOMMES_NOUS = await getQuiSommesNous();
 
 const INFOS_SUPP = `📦 Envoi rapide sous 24/48H
 🛍️ +500 articles moto disponibles`;
