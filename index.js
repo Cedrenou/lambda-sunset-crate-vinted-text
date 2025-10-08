@@ -37,7 +37,7 @@ exports.handler = async (event) => {
         const QUI_SOMMES_NOUS = await getQuiSommesNous();
         const INFOS_SUPP = await getInfosSupp();
         const HASHTAGS = await getHashtags();
-        const UGS_ET_PROTECTION = await getUgsEtProtection();
+        const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
         const PROMPT_TEMPLATE = await getPromptTemplate();
         const bucket = event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
