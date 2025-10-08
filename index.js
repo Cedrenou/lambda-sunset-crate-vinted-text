@@ -6,12 +6,6 @@ const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection } = requ
 const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const INFOS_SUPP = `📦 Envoi rapide sous 24/48H
-🛍️ +500 articles moto disponibles`;
-
-const HASHTAGS = `#alpinestars #dainese #vestemoto #blousonmoto #cuirmoto #helstons #segura #fox #gaerne #revit #ixon #klim #bering #furygan #tcx #forma #spidi #rst #ktm #deuxexmachina #sunsetrider #scott #leatt #forma #johndoe #D3o #richa #dxr #motopascher #ixs #allone #daytona #dorsalemoto #lonerider #enduristan #bottemoto #harleydavidson #protectionmoto #cross #enduro #trail #chaussuremoto #equipementmoto`;
-
-const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
 
 // Fonction utilitaire pour déduire le genre à partir de la colonne Famille
 function getGenre(famille) {
@@ -41,6 +35,9 @@ exports.handler = async (event) => {
     try {
         // Récupération des configurations depuis DynamoDB
         const QUI_SOMMES_NOUS = await getQuiSommesNous();
+        const INFOS_SUPP = await getInfosSupp();
+        const HASHTAGS = await getHashtags();
+        const UGS_ET_PROTECTION = await getUgsEtProtection();
         const bucket = event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
         console.log(`Bucket : ${bucket}, Key : ${key}`);
@@ -84,7 +81,7 @@ exports.handler = async (event) => {
             const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)} en incluant les atouts spécifique suivant ${JSON.stringify(row['Indications pour description'])}, met en avant la fonctionnalité, la sécurité et la qualité. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
-                model: 'gpt-4o',
+                model: 'gpt-5',
                 messages: [
                     { role: 'system', content: 'Tu es un expert en marketing et en vente en ligne. Tu es capable de générer des descriptions attrayantes pour des articles de vente en ligne à destination de Vinted.' },
                     { role: 'user', content: prompt }
