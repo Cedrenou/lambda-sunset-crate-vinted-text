@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Zip Lambda package
-        run: zip -r lambda-package.zip index.js package.json node_modules
+        run: zip -r lambda-package.zip index.js dynamo.js package.json node_modules
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
