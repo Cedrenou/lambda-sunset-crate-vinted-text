@@ -30,12 +30,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
 
-      - name: Update Lambda IAM permissions for DynamoDB
-        run: |
-          aws iam attach-role-policy \
-            --role-name lambda-sunst-create-vinted-text-role-hnxhcpyq \
-            --policy-arn arn:aws:iam::aws:policy/AmazonDynamoDBReadOnlyAccess
-
       - name: Deploy to Lambda
         run: |
           aws lambda update-function-code \
