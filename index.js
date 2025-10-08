@@ -5,6 +5,8 @@ const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection, getProm
 
 const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
+
 
 
 // Fonction utilitaire pour déduire le genre à partir de la colonne Famille
@@ -37,7 +39,6 @@ exports.handler = async (event) => {
         const QUI_SOMMES_NOUS = await getQuiSommesNous();
         const INFOS_SUPP = await getInfosSupp();
         const HASHTAGS = await getHashtags();
-        const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
         const PROMPT_TEMPLATE = await getPromptTemplate();
         const bucket = event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
