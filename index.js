@@ -1,7 +1,7 @@
 const { S3Client, GetObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
 const { parse } = require('csv-parse/sync');
 const { OpenAI } = require('openai');
-const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection } = require('./dynamo');
+const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection, getPromptTemplate } = require('./dynamo');
 
 const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
@@ -38,6 +38,7 @@ exports.handler = async (event) => {
         const INFOS_SUPP = await getInfosSupp();
         const HASHTAGS = await getHashtags();
         const UGS_ET_PROTECTION = await getUgsEtProtection();
+        const PROMPT_TEMPLATE = await getPromptTemplate();
         const bucket = event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
         console.log(`Bucket : ${bucket}, Key : ${key}`);
@@ -77,8 +78,10 @@ exports.handler = async (event) => {
             }
             caracteristiques += '\n📸 Photos 100% authentiques sur fond blanc';
 
-            // Générer uniquement la description personnalisée
-            const prompt = `Rédige une description attrayante et détaillée pour un article moto d'occasion à vendre sur Vinted, à partir des informations suivantes : ${JSON.stringify(row)} en incluant les atouts spécifique suivant ${JSON.stringify(row['Indications pour description'])}, met en avant la fonctionnalité, la sécurité et la qualité. La description doit faire entre 200 et 250 caractères maximum. Ne parle pas de la boutique, des conseils, ni d'informations générales. Ne mets pas de hashtags. Ne parle de la doublure que si l'information est présente.`;
+            // Générer uniquement la description personnalisée avec template dynamique
+            const prompt = PROMPT_TEMPLATE
+                .replace('{PRODUCT_DATA}', JSON.stringify(row))
+                .replace('{SPECIFIC_ASSETS}', JSON.stringify(row['Indications pour description']));
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
                 model: 'gpt-5',

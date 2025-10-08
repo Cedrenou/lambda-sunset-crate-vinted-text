@@ -38,3 +38,8 @@ exports.getUgsEtProtection = async () => {
     const config = await exports.getLambdaConfig()
     return config.config.ugsEtProtection
 }
+
+exports.getPromptTemplate = async () => {
+    const config = await exports.getLambdaConfig()
+    return config.config.gptPrompt
+}
