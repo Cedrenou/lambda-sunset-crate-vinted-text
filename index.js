@@ -6,9 +6,6 @@ const { getQuiSommesNous, getInfosSupp, getHashtags, getUgsEtProtection } = requ
 const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Sections fixes
-const QUI_SOMMES_NOUS = await getQuiSommesNous();
-
 const INFOS_SUPP = `📦 Envoi rapide sous 24/48H
 🛍️ +500 articles moto disponibles`;
 
@@ -42,6 +39,8 @@ function getTypeArticle(famille, matiere) {
 exports.handler = async (event) => {
     console.log('Début de la lambda. Event reçu :', JSON.stringify(event, null, 2));
     try {
+        // Récupération des configurations depuis DynamoDB
+        const QUI_SOMMES_NOUS = await getQuiSommesNous();
         const bucket = event.Records[0].s3.bucket.name;
         const key = decodeURIComponent(event.Records[0].s3.object.key.replace(/\+/g, ' '));
         console.log(`Bucket : ${bucket}, Key : ${key}`);
