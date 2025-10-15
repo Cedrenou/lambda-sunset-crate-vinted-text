@@ -7,8 +7,6 @@ const s3 = new S3Client();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const UGS_ET_PROTECTION = (ugs) => `\n🔗 UGS : ${ugs}`;
 
-
-
 // Fonction utilitaire pour déduire le genre à partir de la colonne Famille
 function getGenre(famille) {
     if (!famille) return '';
@@ -85,7 +83,7 @@ exports.handler = async (event) => {
                 .replace('{SPECIFIC_ASSETS}', JSON.stringify(row['Indications pour description']));
             console.log(`Appel OpenAI pour la ligne ${i} :`, prompt);
             const completion = await openai.chat.completions.create({
-                model: 'gpt-5',
+                model: 'gpt-4o',
                 messages: [
                     { role: 'system', content: 'Tu es un expert en marketing et en vente en ligne. Tu es capable de générer des descriptions attrayantes pour des articles de vente en ligne à destination de Vinted.' },
                     { role: 'user', content: prompt }
